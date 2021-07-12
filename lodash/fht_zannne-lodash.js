@@ -42,13 +42,14 @@ var fht_zannne = function () {
             if (typeof (f) == "function") {
                 var temp = f(array[i])
             } else {
-                var temp = array[i].f
+                var temp = array[i][f]
             }
             if (log[temp] == null) {
                 res.push(array[i])
                 log[temp] = 1
             }
         }
+        console.log(log)
         return res
     }
 
@@ -109,6 +110,18 @@ var fht_zannne = function () {
     }
 
 
+    function forEach() {
+        for (let index = 0; index < array.length; index++) {
+            const element = array[index];
+
+        }
+
+    }
+
+
+
+
+
     return {
         chunk: chunk,
         compact: compact,
@@ -118,6 +131,13 @@ var fht_zannne = function () {
         flattenDepth: flattenDepth,
         gruopBy: groupBy,
         keyBy: KeyBy,
+        forEach: forEach,
+        map: map,
+        filter: filter,
+        reduce: reduce,
+        zip: zip,
+        unzip: unzip,
+
     }
 }()
 
