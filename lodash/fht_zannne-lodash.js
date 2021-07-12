@@ -12,8 +12,19 @@ var fht_zannne = function () {
         return result
     }
 
+    function compact(array) {
+        var res = []
+        for (let i = 0; i < array.length; i++) {
+            if (array[i]) {
+                res.push(array[i])
+            }
+        }
+        return res
+    }
+
     return {
-        chunk: chunk
+        chunk: chunk,
+        compact: compact
     }
 }()
 
