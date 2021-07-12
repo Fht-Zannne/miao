@@ -90,7 +90,6 @@ var fht_zannne = function () {
             } else {
                 var temp = array[i].f
             }
-
             if (res[temp] == null) {
                 res[temp] = new Array
                 res[temp].push(array[i])
@@ -102,17 +101,40 @@ var fht_zannne = function () {
     }
 
 
+
+    //输入：KeyBy([{ "dir": "left", "code": 97 }, { "dir": "right", "code": 100 }], function (o) { \n   return String.fromCharCode(o.code); \n })
+    //期望：{ "a": { "dir": "left", "code": 97 }, "d": { "dir": "right", "code": 100 } }
+    // =================
+    // 输入：KeyBy([{"dir":"left","code":97},{"dir":"right","code":100}],"dir")
+    // 期望：{"left":{"dir":"left","code":97},"right":{"dir":"right","code":100}}
+    // =================
+    // 输入：KeyBy([{"name":"moe","age":40},{"name":"larry","age":50},{"name":"curly","age":60}],"age")
+    // 期望：{"40":{"name":"moe","age":40},"50":{"name":"larry","age":50},"60":{"name":"curly","age":60}}
+    // =================
+    // 输入：KeyBy([{"name":"moe","age":40},{"name":"larry","age":50},{"name":"curly","age":60}],"age")
+    // 期望：{"40":{"name":"moe","age":40},"50":{"name":"larry","age":50},"60":{"name":"curly","age":60}}
     function KeyBy(array, f) {
+        var res = []
+        for (let i = 0; i < array.length; i++) {
+            debugger
+            if (typeof (f) == "function") {
+                var temp = f(array[i].code)
+            } else {
+                var temp = array[i].f
+            }
 
-
-
-
+            if (res[temp] == null) {
+                res[temp] = []
+            }
+            res[temp].push(array[i])
+        }
+        return res
     }
 
 
     function forEach() {
         for (let index = 0; index < array.length; index++) {
-            const element = array[index];
+
 
         }
 
@@ -132,27 +154,5 @@ var fht_zannne = function () {
         gruopBy: groupBy,
         keyBy: KeyBy,
         forEach: forEach,
-        map: map,
-        filter: filter,
-        reduce: reduce,
-        zip: zip,
-        unzip: unzip,
-
     }
 }()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
