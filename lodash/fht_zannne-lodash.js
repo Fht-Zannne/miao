@@ -1,7 +1,7 @@
 
-var foobar = {
+var fht_zannne = function () {
 
-    chunk: function (array, n) {
+    function chunk(array, n) {
         var temp = 0
         var arr = []
         var result = []
@@ -17,13 +17,11 @@ var foobar = {
             result[count++] = arr[i]
             arr = []
         }
-
         return result
     }
 
-    ,
 
-    compact: function (array) {
+    function compact(array) {
         var res = []
         for (let i = 0; i < array.length; i++) {
 
@@ -34,10 +32,10 @@ var foobar = {
         return res
     }
 
-    ,
 
 
-    uniq: function (array) {
+
+    function uniq(array) {
         var log = []
         var res = []
         for (let i = 0; i < array.length; i++) {
@@ -52,9 +50,8 @@ var foobar = {
         return res
     }
 
-    ,
 
-    uniqBy: function (array, f) {
+    function uniqBy(array, f) {
         var log = []
         var res = []
         for (let i = 0; i < array.length; i++) {
@@ -69,17 +66,15 @@ var foobar = {
         return res
     }
 
-    ,
-
-    flattenDeep: function (array) {
 
 
-
-
-    }
 
 
 }
+
+
+
+
 
 
 
