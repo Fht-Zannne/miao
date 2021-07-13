@@ -109,7 +109,7 @@ var fht_zannne = function () {
 
             var temp = check ? f(array[i]) : array[i][f]
 
-                res[temp] = array[i]
+            res[temp] = array[i]
         }
         return res
     }
@@ -144,13 +144,7 @@ var fht_zannne = function () {
             } else {
                 temp = coll[i][f]
             }
-
-            if ()
         }
-
-
-
-
         return res
     }
 
@@ -163,6 +157,7 @@ var fht_zannne = function () {
         return res
     }
 
+    
     function values(obj) {
         var res = []
         for (var i in obj) {
@@ -198,36 +193,6 @@ var fht_zannne = function () {
 
     }
 }()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
