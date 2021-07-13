@@ -109,10 +109,7 @@ var fht_zannne = function () {
 
             var temp = check ? f(array[i]) : array[i][f]
 
-            if (res[temp] == null) {
-                res[temp] = []
-            }
-            res[temp].push(array[i])
+                res[temp] = array[i]
         }
         return res
     }
@@ -133,8 +130,28 @@ var fht_zannne = function () {
     }
 
 
-    function filter() {
+    function filter(coll, f) {
+        var res = []
+        if (typeof (f) == "function") {
+            check = true
+        } else {
+            check = false
+        }
 
+        for (let i = 0; i < coll.length; i++) {
+            if (check) {
+                temp = f(coll[i])
+            } else {
+                temp = coll[i][f]
+            }
+
+            if ()
+        }
+
+
+
+
+        return res
     }
 
 
@@ -181,6 +198,19 @@ var fht_zannne = function () {
 
     }
 }()
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
