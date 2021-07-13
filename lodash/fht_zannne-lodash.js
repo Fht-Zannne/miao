@@ -175,7 +175,7 @@ var fht_zannne = function () {
 
 
     function fill(array, value = "", start = 0, end = array.length) {
-        for (let i = 0; i < end; i++) {
+        for (let i = start; i < end; i++) {
             array[i] = value
         }
         return array
