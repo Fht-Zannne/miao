@@ -102,7 +102,7 @@ var fht_zannne = function () {
 
 
     function KeyBy(array, f) {
-        var res = []
+        var res = {}
         var check = typeof (f) == "function" ? true : false
 
         for (let i = 0; i < array.length; i++) {
@@ -138,7 +138,28 @@ var fht_zannne = function () {
     }
 
 
-    function keys() {
+    function keys(obj) {
+        var res = []
+        for (var i in obj) {
+            res.push(i)
+        }
+        return res
+    }
+
+    function values(obj) {
+        var res = []
+        for (var i in obj) {
+            res.push(obj[i])
+        }
+        return res
+    }
+
+
+    function every(coll, f) {
+
+
+
+
 
     }
 
@@ -156,9 +177,27 @@ var fht_zannne = function () {
         map: map,
         filter: filter,
         keys: keys,
+        values: values,
 
     }
 }()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
