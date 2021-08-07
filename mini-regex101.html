@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<style>
+    label {
+        font-size: 24px;
+        margin-left: 20px;
+    }
+
+    label input {
+        height: 25px;
+        width: 25px;
+        margin: 0;
+    }
+
+    input[id='reg'] {
+        display: block;
+        border: 2px solid;
+        width: 600px;
+        height: 40px;
+        font-size: 24px;
+    }
+
+    span.title {
+        font-size: 30px;
+        margin-right: 30px;
+    }
+
+    em {
+        font-style: normal;
+        background-color: #9fcfff;
+    }
+
+    em:empty::before {
+        content: "";
+        position: absolute;
+        height: 24px;
+        width: 1px;
+        border-left: 2px dotted red;
+    }
+
+    em:nth-child(even) {
+        background-color: #d5ebff;
+    }
+
+    section {
+        width: 600px;
+        position: relative;
+    }
+
+    section pre {
+        top: 0;
+        margin: 0;
+        font-size: 24px;
+        padding: 7px;
+        overflow-y: scroll;
+    }
+
+    #result {
+        color: transparent;
+        /* overflow-y: scroll; */
+    }
+
+    section pre,
+    section textarea {
+        height: 500px;
+        width: 600px;
+        font-size: 24px;
+        padding: 5px;
+        border: 2px solid;
+        position: absolute;
+        white-space: pre-wrap;
+        background-color: transparent;
+    }
+
+    #error {
+        height: 20px;
+        font-size: 30px;
+        color: red;
+        font-weight: bold;
+    }
+</style>
+
+<body>
+    <div>
+        <span class="title">REGULAR EXPRESSION</span>
+        <label for=""><input type="checkbox" id='ignoreCase' onclick="run()">i</label>
+        <label for=""><input type="checkbox" checked id='global' onclick="run()">g</label>
+        <label for=""><input type="checkbox" id='multiline' onclick="run()">m</label>
+        <input type="text" id="reg" onkeyup="run()" value="foo">
+        <div id="error"></div>
+        <br>
+        <span class="title">TEST STRING</span>
+
+        <section>
+            <pre id="result"></pre>
+            <textarea spellcheck="false" style="resize:none" id="strInput" cols="30" rows="10" onkeyup="run()">foo dlkjacnja foobarbzabazlkc
+            dawdawdawdgasd
+        adwdawdddddddddddddddd
+    awdfooo fo</textarea>
+
+        </section>
+
+
+
+    </div>
+
+    <script>
+        function run() {
+            var regSource = reg.value
+            var flags = getFlags()
+
+            if (regSource == "") {
+                result.innerHTML = ''
+                error.innerHTML = "Please input any regular expression.";
+                return
+            }
+
+            try {
+                var re = new RegExp(regSource, flags)
+                error.innerHTML = ''
+            } catch (e) {
+                console.log(e)
+                error.innerHTML = "e.message"
+                resultHTML.innerHTML = ""
+                return
+            }
+
+
+
+            console.log(re)
+            var str = strInput.value
+            var match
+
+            var resultHTML = ''
+
+            if (re.global) {
+                var lastIndex = re.lastIndex
+                while (match = re.exec(str)) {
+                    resultHTML += str.slice(lastIndex, match.index)
+                    resultHTML += "<em>" + match[0] + "</em>"
+                    lastIndex = re.lastIndex
+                    //如果输入的正则表达式为零宽断言，则需要手动地增加lastindex以防止进入死循环
+                    if (match[0] = ' ') {
+                        re.lastIndex += 1
+                    }
+                    console.log(re.lastIndex)
+                }
+                resultHTML += str.slice(lastIndex)
+            } else {
+                match = re.exec(str)
+                resultHTML += str.slice(0, match.index)
+                resultHTML += "<em>" + match[0] + "</em>"
+                resultHTML += str.slice(match.index + match[0].length)
+            }
+            result.innerHTML = resultHTML
+        }
+
+        run()
+
+        function getFlags() {
+            var flags = ''
+            if (ignoreCase.checked) {
+                flags += "i"
+            }
+            if (global.checked) {
+                flags += "g"
+            }
+            if (multiline.checked) {
+                flags += "m"
+            }
+            return flags
+        }
+    </script>
+</body>
+
+</html>
