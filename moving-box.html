@@ -11,14 +11,17 @@
 <body>
     <div style="top:50px;left:50px">
         q减速
+        <br>
         e加速
+        <br>
+        <span id='speed'></span>
     </div>
 </body>
 
 <style>
     div {
-        height: 50px;
-        width: 50px;
+        height: 100px;
+        width: 100px;
         background-color: skyblue;
         position: absolute
     }
@@ -41,6 +44,8 @@
 
 
     var boost = 1
+
+    speed.textContent = "当前倍速:" + boost
 
     //控制键盘按下时,改变运动速度
     document.addEventListener('keydown', function (e) {
@@ -69,16 +74,16 @@
 
         if (e.key == 'e') {
             boost += 1
-            console.log("当前倍速为" + boost)
+            speed.textContent = "当前倍速:" + boost
         }
 
         if (e.key == 'q') {
             if (boost == 1) {
-                console.log("当前倍速为" + boost)
+                speed.textContent = "当前倍速:" + boost
                 return
             }
             boost -= 1
-            console.log("当前倍速为" + boost)
+            speed.textContent = "当前倍速:" + boost
         }
     })
 
