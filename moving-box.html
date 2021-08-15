@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div style="top:50px;left:50px">
+        q减速
+        e加速
+    </div>
+</body>
+
+<style>
+    div {
+        height: 50px;
+        width: 50px;
+        background-color: skyblue;
+        position: absolute
+    }
+</style>
+
+</html>
+
+
+
+<script>
+    var div = document.querySelector('div')
+    //通过速度变量来控制移动
+    var vx = 0
+    var vy = 0
+    //记录按键按下的情况
+    var wPress = false
+    var sPress = false
+    var aPress = false
+    var dPress = false
+
+
+    var boost = 1
+
+    //控制键盘按下时,改变运动速度
+    document.addEventListener('keydown', function (e) {
+        // console.log(e)
+
+        //如果w按下,将y轴方向速度变为-1,并且wPress记录为true,下同
+        if (e.key == 'w') {
+            vy = -1
+            wPress = true
+        }
+
+        if (e.key == 's') {
+            vy = 1
+            sPress = true
+        }
+
+        if (e.key == 'a') {
+            vx = -1
+            aPress = true
+        }
+
+        if (e.key == 'd') {
+            vx = 1
+            dPress = true
+        }
+
+        if (e.key == 'e') {
+            boost += 1
+            console.log("当前倍速为" + boost)
+        }
+
+        if (e.key == 'q') {
+            if (boost == 1) {
+                console.log("当前倍速为" + boost)
+                return
+            }
+            boost -= 1
+            console.log("当前倍速为" + boost)
+        }
+    })
+
+    //按键松开后,判断对立方向的按键是否仍然处于按下的状态
+    document.addEventListener('keyup', function (e) {
+        // console.log(e)
+
+        // 如果w键松开,将wPress设定为false,并判断s键是否处于按下的状态,
+        // 如果是,那么将y轴方向的速度变为1(原来w按下时,y轴速度为-1)
+        //下同
+        if (e.key == 'w') {
+            wPress = false
+            if (sPress) {
+                vy = 1
+            } else {
+                vy = 0
+            }
+        }
+
+        if (e.key == 's') {
+            sPress = false
+            if (wPress) {
+                vy = -1
+            } else {
+                vy = 0
+            }
+        }
+
+        if (e.key == 'a') {
+            aPress = false
+            if (dPress) {
+                vx = 1
+            } else {
+                vx = 0
+            }
+        }
+
+        if (e.key == 'd') {
+            dPress = false
+            if (aPress) {
+                vx = -1
+            } else {
+                vx = 0
+            }
+        }
+
+
+    })
+
+
+    //上述事件仅用来改变元素的速度,而动画由以下函数控制(通过vx vy来改变 left 和 top 属性)
+    //实际上不按键的时候动画也一直在执行,只不过vx vy都为0
+    requestAnimationFrame(function move() {
+        // console.log(1) 会一直输出1
+        div.style.left = parseInt(div.style.left) + vx * boost + 'px'
+        div.style.top = parseInt(div.style.top) + vy * boost + 'px'
+        requestAnimationFrame(move)
+    })
+
+
+
+
+
+</script>
+
+
+<script>
+    //无法解决两个按键同时按下的情况
+    // var div = document.querySelector('div')
+
+    // document.addEventListener('keydown', e => {
+    //     if (e.key == "w") {
+    //         div.style.top = parseInt(div.style.top) - 1 + 'px'
+    //     } else if (e.key == "s") {
+    //         div.style.top = parseInt(div.style.top) + 1 + 'px'
+    //     }
+
+    //     if (e.key == "a") {
+    //         div.style.left = parseInt(div.style.left) - 1 + 'px'
+    //     } else if (e.key == "d") {
+    //         div.style.left = parseInt(div.style.left) + 1 + 'px'
+    //     }
+    // })
+</script>
