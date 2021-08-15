@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div style="background-color: skyblue; top: 0px; left: 0px;z-index: 1;"></div>
+    <div style="background-color: yellowgreen; top: 0px; left: 50px;z-index: 1;"></div>
+    <div style="background-color: orange; top: 0px; left: 100px;z-index: 1;"></div>
+</body>
+
+<style>
+    div {
+        width: 50px;
+        height: 50px;
+        position: absolute;
+        z-index: 1;
+        /* border: 1px solid red; */
+    }
+</style>
+
+</html>
+
+<script>
+    var lastpos = null
+    var maxZ = 1
+
+    document.addEventListener('mousedown', function (e) {
+
+        //点击窗口后,锁定该元素,防止误触,后续所有的操作都固定对该元素生效
+        var t = e.target
+
+        function drag(e) {
+
+            var pos = mousePos(document.querySelector('body'))
+
+            if (lastpos) {
+                t.style.left = parseFloat(t.style.left) + (pos.x - lastpos.x) + 'px'
+                t.style.top = parseFloat(t.style.top) + (pos.y - lastpos.y) + 'px'
+            } else {
+                t.style.left = parseFloat(t.style.left) + 'px'
+                t.style.top = parseFloat(t.style.top) + 'px'
+            }
+            lastpos = pos
+
+        }
+
+        t.style.zIndex = maxZ + 1
+
+        document.addEventListener('mousemove', drag)
+
+        document.addEventListener('mouseup', function once() {
+            maxZ = Math.max(maxZ, t.style.zIndex)
+            lastpos = null
+            t = null
+            document.removeEventListener('mouseup', once)
+            document.removeEventListener('mousemove', drag)
+        })
+
+    })
+
+    function mousePos(node) {
+        var box = node.getBoundingClientRect()
+        return {
+            x: window.event.clientX - box.x,
+            y: window.event.clientY - box.y
+        }
+    }
+
+</script>
