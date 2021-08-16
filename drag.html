@@ -21,6 +21,9 @@
         position: absolute;
         z-index: 1;
         /* border: 1px solid red; */
+
+        /* 选中内容后拖动的操作会导致出现bug,所以禁止用户选中元素 */
+        user-select: none;
     }
 </style>
 
@@ -57,7 +60,7 @@
         document.addEventListener('mouseup', function once() {
             maxZ = Math.max(maxZ, t.style.zIndex)
             lastpos = null
-            t = null
+            // t = null
             document.removeEventListener('mouseup', once)
             document.removeEventListener('mousemove', drag)
         })
