@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <svg width='500' height='500'></svg>
+    <br>
+    <input type="color" id='colorSetter'>
+    <input type="range" id='thicknessSetter'><span id='thickness'></span>
+</body>
+
+<style>
+    svg {
+        border: 2px solid black;
+        /* height: 500px;
+        width: 500px; */
+    }
+</style>
+
+</html>
+
+
+<script>
+
+    //************************************线条粗细*****************************************
+    thickness.textContent = `线条粗细:${thicknessSetter.value}`
+
+    document.addEventListener('mousedown', function (e) {
+        function change() {
+            thickness.textContent = `线条粗细:${thicknessSetter.value}`
+        }
+        document.addEventListener('mousemove', change)
+        document.addEventListener('mouseup', function once() {
+            document.removeEventListener('mouseup', once)
+            document.removeEventListener('mousemove', change)
+        })
+    })
+
+
+
+    //************************************线条绘制*****************************************
+    var svg = document.querySelector('svg')
+    var lastpos = null
+
+    document.addEventListener('mousedown', function (e) {
+
+        function drawLine(e) {
+            //获得鼠标相对于svg元素的位置
+            var pos = mousePos(svg)
+            //!!!!!!!!!创建一个svg中显示的line元素需要如下方法
+            var line = document.createElementNS("http://www.w3.org/2000/svg", 'line')
+
+            //如果上一个坐标(lastpos)存在(即鼠标未抬起,线还未画完),则以上一个绘制坐标为起点继续画线
+            if (lastpos) {
+                line.setAttribute('x1', lastpos.x)
+                line.setAttribute('y1', lastpos.y)
+                line.setAttribute('x2', pos.x)
+                line.setAttribute('y2', pos.y)
+                line.setAttribute('stroke', colorSetter.value)
+                line.setAttribute('stroke-width', `${0.05 * thicknessSetter.value}`)
+            }
+
+            //绘制完成后,当前所在坐标成为lastpos
+            lastpos = pos
+
+            //将绘制的线条添加到svg元素中
+            svg.append(line)
+        }
+
+        //为鼠标移动事件添加drawline事件来画线
+        document.addEventListener('mousemove', drawLine)
+        // 鼠标抬起时，移除掉mousemove事件(让mousemove事件只在按下鼠标时才能够触发)
+        // 并且移除掉自身mouseup事件
+        document.addEventListener('mouseup', function once() {
+            // 鼠标抬起时,相当于线条绘制完成,需要将lastpos重置,防止上一个线条的末尾和新线条的开头相连
+            lastpos = null
+            //!!!此处虽然解绑了自身,但是之后的解绑工作依然会正常进行
+            document.removeEventListener('mouseup', once)
+            document.removeEventListener('mousemove', drawLine)
+        })
+
+    })
+
+    //获得鼠标相对某元素的位置
+    function mousePos(node) {
+        var box = node.getBoundingClientRect()
+        return {
+            x: window.event.clientX - box.x,
+            y: window.event.clientY - box.y
+        }
+    }
+</script>
