@@ -9,12 +9,20 @@
 </head>
 
 <body>
-    <div style="background-color: skyblue; top: 0px; left: 0px;z-index: 1;"></div>
-    <div style="background-color: yellowgreen; top: 0px; left: 50px;z-index: 1;"></div>
-    <div style="background-color: orange; top: 0px; left: 100px;z-index: 1;"></div>
+    <div style="background-color: skyblue; top: 0px; left: 0px;z-index: 1;width: 50px;height: 50px;"></div>
+    <div style="background-color: yellowgreen; top: 0px; left: 50px;z-index: 1;width: 50px;height: 50px"></div>
+    <div style="background-color: orange; top: 0px; left: 100px;z-index: 1;width: 50px;height: 50px"></div>
 </body>
 
 <style>
+    body,
+    html {
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
     div {
         width: 50px;
         height: 50px;
@@ -22,7 +30,7 @@
         z-index: 1;
         /* border: 1px solid red; */
 
-        /* 选中内容后拖动的操作会导致出现bug,所以禁止用户选中元素 */
+        /* 在选中文本或者元素后拖动，会导致出现bug,所以禁止用户选中元素或文本 */
         user-select: none;
     }
 </style>
@@ -30,48 +38,97 @@
 </html>
 
 <script>
+
     var lastpos = null
+    //定义用来记录最大z-index值
     var maxZ = 1
 
     document.addEventListener('mousedown', function (e) {
 
         //点击窗口后,锁定该元素,防止误触,后续所有的操作都固定对该元素生效
         var t = e.target
+        //获得指定元素的宽高
+        var w = parseFloat(t.style.width)
+        var h = parseFloat(t.style.height)
+        //获得鼠标点击时,相对于元素左上角顶点的相对坐标
+        var relativeDistance = mousePos(t)
+        console.log(relativeDistance)
 
         function drag(e) {
-
             var pos = mousePos(document.querySelector('body'))
 
+            //如果lastpos存在，才获取调用以下方法，否则先跳过该步骤，先给lastpos赋值
             if (lastpos) {
-                t.style.left = parseFloat(t.style.left) + (pos.x - lastpos.x) + 'px'
-                t.style.top = parseFloat(t.style.top) + (pos.y - lastpos.y) + 'px'
-            } else {
-                t.style.left = parseFloat(t.style.left) + 'px'
-                t.style.top = parseFloat(t.style.top) + 'px'
+
+                // 如果出现鼠标可以继续左移,但是元素顶到了左侧不能移动的情况(鼠标的绝对x坐标开始小于相对x坐标)
+                if (window.event.clientX < relativeDistance.x) {
+                    // ????如果不设置为0,会出现误差导致留空
+                    t.style.left = 0 + 'px'
+                    // 如果出现鼠标可以继续右移,但是元素顶到了右侧不能移动的情况(鼠标的绝对x坐标开始大于 [视窗宽度 - 元素宽度 + 相对x坐标])
+                } else if (window.event.clientX > document.body.clientWidth - w + relativeDistance.x) {
+                    t.style.left = document.body.clientWidth - w + 'px'
+                    //并非以上两种情况,正常移动
+                } else {
+                    t.style.left = Math.max(0, parseFloat(t.style.left) + (pos.x - lastpos.x)) + 'px'
+                }
+
+                // 如果出现鼠标可以继续上移,但是元素顶到了上侧不能移动的情况(鼠标的绝对y坐标开始小于相对y坐标)
+                if (window.event.clientY < relativeDistance.y) {
+                    t.style.top = 0 + 'px'
+                    // 如果出现鼠标可以继续右下移,但是元素顶到了下侧不能移动的情况(鼠标的绝对y坐标开始大于 [视窗高度 - 元素高度 + 相对y坐标])
+                } else if (window.event.clientY > document.body.clientHeight - h + relativeDistance.y) {
+                    t.style.top = document.body.clientHeight - h + 'px'
+                    //并非以上两种情况,正常移动
+                } else {
+                    t.style.top = Math.max(0, parseFloat(t.style.top) + (pos.y - lastpos.y)) + 'px'
+                }
             }
+
+            //将上本次调用获得的位置信息作为下一次的lastpos
             lastpos = pos
 
         }
 
+        // 将获得焦点的元素的z-index值设置为记录中的z-index最大值+1，使之在最上层
         t.style.zIndex = maxZ + 1
 
         document.addEventListener('mousemove', drag)
 
         document.addEventListener('mouseup', function once() {
+            // 调用结束松开鼠标时，获取本次操作元素(此时的t为最上层元素)的z-index值作为最大z-index值
             maxZ = Math.max(maxZ, t.style.zIndex)
             lastpos = null
-            // t = null
+
+            //窗口磁吸效果，定义在松开鼠标时执行
+            //如果目标元素的左侧小于15px,执行磁吸
+            if (parseFloat(t.style.left) <= 15) {
+                t.style.left = 0 + 'px'
+                //如果目标元素的右侧小于15px,执行磁吸(left值 = 窗口宽度-元素宽度-右侧留空值)
+            } else if (parseFloat(t.style.left) >= document.body.clientWidth - w - 15) {
+                t.style.left = document.body.clientWidth - w + 'px'
+            }
+
+            //如果目标元素的上方小于15px,执行磁吸
+            if (parseFloat(t.style.top) <= 15) {
+                t.style.top = 0 + 'px'
+                //如果目标元素的下方小于15px,执行磁吸(top值 = 窗口高度-元素高度-下方留空值)
+            } else if (parseFloat(t.style.top) >= document.body.clientHeight - h - 15) {
+                t.style.top = document.body.clientHeight - h + 'px'
+            }
+
             document.removeEventListener('mouseup', once)
             document.removeEventListener('mousemove', drag)
         })
-
     })
+
+
+
 
     function mousePos(node) {
         var box = node.getBoundingClientRect()
         return {
             x: window.event.clientX - box.x,
-            y: window.event.clientY - box.y
+            y: window.event.clientY - box.y,
         }
     }
 
