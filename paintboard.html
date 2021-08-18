@@ -5,87 +5,212 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>画线</title>
 </head>
 
 <body>
     <svg width='500' height='500'></svg>
     <br>
-    <input type="color" id='colorSetter'>
+    <span>工具:</span>
+    <button id='toolLine' onclick="tool='line'">线条工具</button>
+    <button id='toolCircle' onclick="tool='circle'">画圆工具</button>
+    <input type="color" id='colorSetter'><span>线条颜色</span>
+    <!-- <input type="color" id='fillSetter'><span>填充颜色</span>
+    <input type="checkbox" id='openFill'><span id='isOpenFill'></span> -->
+    <br>
     <input type="range" id='thicknessSetter'><span id='thickness'></span>
+    <input type="range" id='opacitySetter' value=100><span id='opacity'></span>
 </body>
 
 <style>
+    html,
+    body {
+        padding: 0;
+        margin: 0;
+    }
+
     svg {
+        box-sizing: border-box;
         border: 2px solid black;
-        /* height: 500px;
-        width: 500px; */
+        width: 100%;
+        height: 700px;
+    }
+
+    .dot {
+        height: 5px;
+        width: 5px;
+        background-color: skyblue;
+        position: absolute;
+    }
+
+    span,
+    br {
+        user-select: none;
     }
 </style>
 
 </html>
 
-
 <script>
+    //************************************撤销*****************************************
+    var svg = document.querySelector('svg')
+    document.addEventListener('keydown', function (e) {
+        if (e.key == 'z' && e.ctrlKey == true) {
+            if (svg.lastElementChild) {
+                svg.removeChild(svg.lastElementChild)
+            }
+        }
+    })
+
 
     //************************************线条粗细*****************************************
     thickness.textContent = `线条粗细:${thicknessSetter.value}`
-
-    document.addEventListener('mousedown', function (e) {
-        function change() {
-            thickness.textContent = `线条粗细:${thicknessSetter.value}`
-        }
-        document.addEventListener('mousemove', change)
-        document.addEventListener('mouseup', function once() {
-            document.removeEventListener('mouseup', once)
-            document.removeEventListener('mousemove', change)
-        })
+    document.addEventListener('input', function (e) {
+        thickness.textContent = `线条粗细:${thicknessSetter.value}`
     })
 
+    //************************************线条透明度*****************************************
+    opacity.textContent = `线条透明度:${opacitySetter.value}`
+    document.addEventListener('input', function (e) {
+        opacity.textContent = `线条透明度:${opacitySetter.value}`
+    })
 
 
     //************************************线条绘制*****************************************
     var svg = document.querySelector('svg')
-    var lastpos = null
-
+    //定义画图的工具类型
+    var tool = 'line'
+    // var lastpos = null
     document.addEventListener('mousedown', function (e) {
 
-        function drawLine(e) {
-            //获得鼠标相对于svg元素的位置
+        if (tool == 'line') {
+            //获得=鼠标相对于svg元素左上角顶点的位置
             var pos = mousePos(svg)
-            //!!!!!!!!!创建一个svg中显示的line元素需要如下方法
-            var line = document.createElementNS("http://www.w3.org/2000/svg", 'line')
-
-            //如果上一个坐标(lastpos)存在(即鼠标未抬起,线还未画完),则以上一个绘制坐标为起点继续画线
-            if (lastpos) {
-                line.setAttribute('x1', lastpos.x)
-                line.setAttribute('y1', lastpos.y)
-                line.setAttribute('x2', pos.x)
-                line.setAttribute('y2', pos.y)
-                line.setAttribute('stroke', colorSetter.value)
-                line.setAttribute('stroke-width', `${0.05 * thicknessSetter.value}`)
+            //如果鼠标起点是画框外,则不进行画线
+            if (pos.x < 0 || pos.y < 0 || pos.x > svg.getBoundingClientRect().width || pos.y > svg.getBoundingClientRect().height) {
+                return
             }
 
-            //绘制完成后,当前所在坐标成为lastpos
-            lastpos = pos
+            //使用polyline来绘制折线
+            var polyline = document.createElementNS("http://www.w3.org/2000/svg", 'polyline')
+            svg.append(polyline)
 
-            //将绘制的线条添加到svg元素中
-            svg.append(line)
+            var points = `${pos.x} ${pos.y} `
+
+            function drawLine(e) {
+                //获得鼠标相对于svg元素的位置
+                var pos = mousePos(svg)
+                points += `${pos.x} ${pos.y} `
+                polyline.setAttribute('points', points)
+
+                //关闭多边形的填充
+                polyline.setAttribute('fill', "none")
+                polyline.setAttribute('points', points)
+                polyline.setAttribute('stroke', colorSetter.value)
+                polyline.setAttribute('stroke-width', `${0.05 * thicknessSetter.value} `)
+                polyline.setAttribute('stroke-linecap', 'round')
+                polyline.setAttribute('stroke-linejoin', 'round')
+                polyline.style.opacity = `${opacitySetter.value / 100}`
+
+
+                // 如果上一个坐标(lastpos)存在(即鼠标未抬起, 线还未画完), 则以上一个绘制坐标为起点继续画线
+                // if (lastpos) {
+                //     line.setAttribute('x1', lastpos.x)
+                //     line.setAttribute('y1', lastpos.y)
+                //     line.setAttribute('x2', pos.x)
+                //     line.setAttribute('y2', pos.y)
+                //     line.setAttribute('stroke', colorSetter.value)
+                //     line.setAttribute('stroke-width', `${0.05 * thicknessSetter.value} `)
+                //     line.style.opacity = `${opacitySetter.value / 100} `
+                // }
+                //绘制完成后,当前所在坐标成为lastpos
+                // lastpos = pos
+            }
+            //为鼠标移动事件添加drawline事件来画线
+            document.addEventListener('mousemove', drawLine)
+            // 鼠标抬起时，移除掉mousemove事件(让mousemove事件只在按下鼠标时才能够触发)
+            // 并且移除掉自身mouseup事件
+            document.addEventListener('mouseup', function once() {
+                // 鼠标抬起时,相当于线条绘制完成,需要将lastpos重置,防止上一个线条的末尾和新线条的开头相连
+                // lastpos = null
+
+                //!!!此处虽然解绑了自身,但是之后的解绑工作依然会正常进行
+                document.removeEventListener('mouseup', once)
+                document.removeEventListener('mousemove', drawLine)
+                //如果添加的polyline为空,无法构成线条,则移除
+                if (polyline.getAttribute('fill') == null) {
+                    svg.removeChild(svg.lastElementChild)
+                }
+            })
         }
 
-        //为鼠标移动事件添加drawline事件来画线
-        document.addEventListener('mousemove', drawLine)
-        // 鼠标抬起时，移除掉mousemove事件(让mousemove事件只在按下鼠标时才能够触发)
-        // 并且移除掉自身mouseup事件
-        document.addEventListener('mouseup', function once() {
-            // 鼠标抬起时,相当于线条绘制完成,需要将lastpos重置,防止上一个线条的末尾和新线条的开头相连
-            lastpos = null
-            //!!!此处虽然解绑了自身,但是之后的解绑工作依然会正常进行
-            document.removeEventListener('mouseup', once)
-            document.removeEventListener('mousemove', drawLine)
-        })
+        if (tool == 'circle') {
 
+            var startPos = mousePos(svg)
+            if (startPos.x < 0 || startPos.y < 0 || startPos.x > svg.getBoundingClientRect().width || startPos.y > svg.getBoundingClientRect().height) {
+                return
+            }
+
+            var ellipse = document.createElementNS("http://www.w3.org/2000/svg", 'ellipse')
+            svg.append(ellipse)
+
+            ellipse.setAttribute('fill', 'none')
+            ellipse.setAttribute('stroke', colorSetter.value)
+            ellipse.setAttribute('stroke-width', `${0.05 * thicknessSetter.value} `)
+            ellipse.setAttribute('stroke-linecap', 'round')
+            ellipse.setAttribute('stroke-linejoin', 'round')
+            ellipse.style.opacity = `${opacitySetter.value / 100}`
+
+            if (startPos.x < 0 || startPos.y < 0 || startPos.x > svg.getBoundingClientRect().width || startPos.y > svg.getBoundingClientRect().height) {
+                return
+            }
+
+            function drawCircle(e) {
+                var endPos = mousePos(svg)
+                var cx = (startPos.x + endPos.x) / 2
+                var cy = (startPos.y + endPos.y) / 2
+                ellipse.setAttribute('cx', cx)
+                ellipse.setAttribute('cy', cy)
+
+                var rx = Math.abs(startPos.x - endPos.x) / 2
+                var ry = Math.abs(startPos.y - endPos.y) / 2
+                ellipse.setAttribute('rx', rx)
+                ellipse.setAttribute('ry', ry)
+            }
+
+
+            document.addEventListener('mousemove', drawCircle)
+            document.addEventListener('mouseup', function once() {
+                document.removeEventListener('mouseup', once)
+                document.removeEventListener('mousemove', drawCircle)
+            })
+        }
     })
+
+
+    //************************************按钮高亮*****************************************
+    toolLine.setAttribute('style', 'background-color:orange')
+    document.addEventListener('click', function (e) {
+        var buttons = Array(...document.querySelectorAll('button'))
+        buttons.forEach(it => it.setAttribute('style', ''))
+
+        if (tool == 'line') {
+            toolLine.setAttribute('style', 'background-color:orange')
+        } else if (tool == 'circle') {
+            toolCircle.setAttribute('style', 'background-color:orange')
+        }
+    })
+
+
+    //d3.js里的一个函数,用来判断鼠标相对于元素的位置
+    function mousePos(node) {
+        var box = node.getBoundingClientRect()
+
+        return {
+            x: window.event.clientX - box.x,
+            y: windwo.event.clientY - box.y
+        }
+    }
 
     //获得鼠标相对某元素的位置
     function mousePos(node) {
