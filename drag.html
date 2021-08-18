@@ -5,13 +5,97 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>拖拽元素</title>
 </head>
 
 <body>
-    <div style="background-color: skyblue; top: 0px; left: 0px;z-index: 1;width: 200px;height: 200px;"></div>
-    <div style="background-color: yellowgreen; top: 0px; left: 50px;z-index: 1;width: 200px;height: 200px"></div>
-    <div style="background-color: orange; top: 0px; left: 100px;z-index: 1;width: 200px;height: 200px"></div>
+    <div class="mainNote" style="background-color: skyblue; top: 0px; left: 0px;z-index: 1;">
+        <button class="open" onclick="addNote()">+</button>
+        <button class="close">×</button>
+        <textarea class="note"></textarea>
+    </div>
+    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quod tempora soluta aliquid? Sint, delectus dolorum ab
+        ipsam voluptatem asperiores modi labore ad magnam quaerat nesciunt odio voluptates cum molestias accusamus.</p>
+    <p>Iusto amet odio repudiandae. Blanditiis quidem delectus perspiciatis quisquam laboriosam porro amet eos
+        voluptatem molestiae neque aliquam consequatur magni deleniti, aut ipsum maiores quibusdam in eveniet distinctio
+        atque soluta ab!</p>
+    <p>Maiores sed tenetur ut ullam ad accusantium hic architecto molestias! Dolor quas tempore ut, laudantium,
+        aspernatur doloribus totam veniam fugiat odio nostrum consequuntur officia atque, dolores neque ad nulla iure.
+    </p>
+    <p>Modi est eum alias distinctio quaerat debitis repellendus, dolor quo totam mollitia non in pariatur porro, illum
+        cumque, temporibus ratione? Dicta nisi amet tempore autem, totam consectetur repellendus aut! Asperiores.</p>
+    <p>At deserunt maxime nesciunt officiis fugit, atque molestias aliquid soluta voluptate numquam sint cum, doloremque
+        ad tempore dolorum? Quis at sequi quam soluta officia aut nihil dolores modi quas ullam.</p>
+    <p>Dolore, doloremque maxime. Aut cupiditate mollitia eligendi iure quis, repellat id architecto ea voluptates
+        itaque modi laborum optio corporis soluta aspernatur sit. Explicabo asperiores praesentium assumenda odio eum
+        officiis fugit!</p>
+    <p>Facere, quasi! Ut numquam recusandae dolores sapiente amet excepturi cum dignissimos eius voluptatibus mollitia.
+        Perferendis sed dicta accusantium similique id voluptatibus sequi aperiam illum libero, facilis qui expedita
+        nesciunt aut.</p>
+    <p>Doloribus autem, debitis magni amet sapiente quibusdam quaerat dolores aperiam quisquam distinctio non, sequi
+        optio cumque ducimus et ab eveniet fuga unde obcaecati omnis natus nisi facilis officia deleniti. Vero.</p>
+    <p>Soluta sapiente fugiat corrupti dolorem esse similique eligendi, ut ullam ipsam consequatur quia alias rerum,
+        quisquam perferendis voluptate perspiciatis laborum nobis. Esse ipsum repellendus sapiente. Exercitationem
+        voluptate cumque nobis tempora.</p>
+    <p>Harum temporibus vero impedit ex ab. Aperiam rem quis ipsam optio, voluptas quasi facere nemo nihil repellat
+        quaerat, possimus tenetur accusamus, ad magnam minus sunt ratione. Laboriosam perferendis ea consequatur.</p>
+    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sequi laborum impedit voluptatem voluptates autem ab,
+        porro assumenda nesciunt ipsam placeat quasi esse, necessitatibus nulla voluptatum ut aspernatur, fuga ex quas.
+    </p>
+    <p>Animi dolor laudantium dolorum nobis est vel cupiditate amet alias. Saepe expedita quisquam quo quos, commodi sed
+        cum sapiente numquam! Quisquam, aperiam. Est veritatis iusto at ducimus optio repellendus quod.</p>
+    <p>Architecto animi beatae modi delectus assumenda sed adipisci, perspiciatis rerum optio ratione debitis sint id
+        odit eum magnam hic sit voluptatem necessitatibus fuga pariatur, provident asperiores perferendis odio!
+        Quibusdam, quam?</p>
+    <p>Ullam, numquam. Quaerat magnam impedit ex quam. Nulla dolor quibusdam praesentium magnam dolorum veritatis,
+        tenetur optio! Dolor sint officiis tempore ea necessitatibus earum odit? Voluptate dicta recusandae iusto rerum
+        aliquid?</p>
+    <p>Aliquam voluptas porro eveniet quo ex reprehenderit nemo, repudiandae soluta quasi debitis eaque voluptates ipsum
+        quibusdam exercitationem hic mollitia adipisci minima beatae omnis similique ab dicta? Nesciunt voluptatem
+        doloremque maxime?</p>
+    <p>Ea quia neque cumque harum nesciunt voluptas deleniti dolor molestias dolores obcaecati magnam, numquam
+        voluptates nisi similique aspernatur voluptatibus laboriosam sequi accusamus quisquam exercitationem nulla fugit
+        officiis! Excepturi, deleniti expedita.</p>
+    <p>Earum rerum commodi similique eius. Aliquid exercitationem minus sit praesentium ipsum iure, unde modi, beatae
+        suscipit ipsam possimus, eum quasi dignissimos quod deserunt dolorum nobis id. Porro autem quos inventore!</p>
+    <p>Suscipit nisi cupiditate deleniti nobis doloribus necessitatibus repellat ipsam aut dolores esse expedita impedit
+        architecto, delectus possimus nostrum ipsum eaque nulla, et, rerum itaque optio cumque. Repellendus deserunt
+        nisi officiis!</p>
+    <p>Ut nulla dolor quae corrupti, et similique, minima molestias distinctio accusamus suscipit praesentium cumque
+        architecto ad debitis at id tenetur! Nobis cumque saepe numquam tempore corrupti commodi veritatis repellat
+        consectetur.</p>
+    <p>Laboriosam praesentium excepturi, architecto ipsa voluptatum animi deserunt molestias a, veritatis necessitatibus
+        fugiat placeat iure expedita porro iusto esse labore beatae eos ab illo tenetur doloribus! Unde odio cum omnis.
+    </p>
+    <p>Excepturi consequuntur reprehenderit inventore laboriosam ducimus doloremque. Nobis eveniet voluptatibus corrupti
+        facere magnam pariatur, quos sequi rem libero labore vero, et accusantium commodi porro dolorem veritatis
+        consequuntur repudiandae ipsa id.</p>
+    <p>Quidem sapiente doloremque tempora reprehenderit laboriosam ipsam odio hic? Molestias, ab placeat? Consequuntur
+        expedita natus dignissimos odit labore! Quam, quaerat est impedit aliquam facere eum culpa corporis quia. Vel,
+        nulla!</p>
+    <p>Inventore suscipit, neque exercitationem magnam cum ea debitis porro totam accusamus vel, sint mollitia at
+        placeat corporis? Commodi fugiat dolor natus repellendus nihil excepturi ea asperiores. Quae accusamus tenetur
+        aut!</p>
+    <p>Consequuntur sequi maxime deserunt, corrupti ipsam ad mollitia perferendis commodi repellat illum voluptates
+        dolorem officia excepturi totam nisi nobis, enim laboriosam numquam! Quidem voluptate nisi fugiat expedita omnis
+        nesciunt quaerat?</p>
+    <p>Nihil ex labore quaerat. Debitis nobis pariatur corrupti! Perspiciatis dolor ducimus odio assumenda expedita
+        reiciendis possimus? Eligendi placeat ipsa itaque maiores nostrum nemo obcaecati dolore ea incidunt temporibus,
+        aliquam assumenda.</p>
+    <p>Aliquid, iusto. Perspiciatis temporibus adipisci, placeat aliquam mollitia, hic at nam doloribus eligendi rem
+        quas sit unde excepturi itaque voluptate, quidem amet facere nesciunt. Maxime quas expedita veniam accusamus
+        sapiente?</p>
+    <p>Sed porro corporis cupiditate necessitatibus provident ex expedita sit, ratione cum dolores aspernatur
+        consectetur temporibus eligendi voluptatum nam et id molestias accusamus hic, saepe laudantium architecto aut?
+        Itaque, nihil adipisci!</p>
+    <p>Magni nemo necessitatibus maxime voluptatibus fugiat! Accusamus dolor, omnis maxime, laboriosam hic quisquam
+        nihil quasi rem aliquid, fuga cumque eligendi ipsum quidem fugiat corporis iusto est ad voluptatibus aperiam
+        mollitia!</p>
+    <p>Praesentium quae nulla eos inventore? Nobis debitis similique ab possimus asperiores molestiae eius sed commodi?
+        Qui consequatur sequi eius ratione modi incidunt quo sit corporis odio? Consequuntur quaerat natus aspernatur.
+    </p>
+    <p>Blanditiis, magni dolorum tenetur ut molestias ea ab incidunt debitis eligendi unde eveniet, fuga commodi at
+        dignissimos, praesentium adipisci dolorem nam in ipsa distinctio placeat! Autem officia adipisci qui dolore!</p>
 </body>
 
 <style>
@@ -23,13 +107,48 @@
         padding: 0;
     }
 
-    div {
+    div.mainNote {
+        border: 2px solid black;
         position: absolute;
         z-index: 1;
-        /* border: 1px solid red; */
-
         /* 在选中文本或者元素后拖动，会导致出现bug,所以禁止用户选中元素或文本 */
         user-select: none;
+    }
+
+    button.open {
+        border: none;
+        background-color: inherit;
+        font-size: 25px;
+    }
+
+    button.close {
+        border: none;
+        background-color: inherit;
+        font-size: 25px;
+        position: absolute;
+        right: 0;
+    }
+
+    button.open:hover {
+        color: green
+    }
+
+    button.close:hover {
+        color: red;
+    }
+
+    button:hover {
+        border: 20px;
+    }
+
+    textarea.note {
+        border-top: 2px solid black;
+        display: block;
+        height: 200px;
+        width: 200px;
+        font-size: 30px;
+        min-width: 100px;
+        min-height: 100px;
     }
 </style>
 
@@ -41,19 +160,23 @@
     //定义用来记录最大z-index值
     var maxZ = 1
 
+    //*************************************************拖动和磁吸等*****************************************
     document.addEventListener('mousedown', function (e) {
 
-        //点击窗口后,锁定该元素,防止误触,后续所有的操作都固定对该元素生效
+        //点击某元素后,锁定该元素,防止误触,后续所有的操作都只对该元素生效
         var t = e.target
+
         //获得指定元素的宽高
-        var w = parseFloat(t.style.width)
-        var h = parseFloat(t.style.height)
+        // var w = parseFloat(t.style.width)
+        // var h = parseFloat(t.style.height)
+        var w = t.getBoundingClientRect().width
+        var h = t.getBoundingClientRect().height
+
         //动态的磁吸系数
-        var kx = parseFloat(t.style.width) * 1 / 3
-        var ky = parseFloat(t.style.height) * 1 / 3
+        var kx = w * 1 / 3
+        var ky = h * 1 / 3
         //获得鼠标点击时,相对于元素左上角顶点的相对坐标
         var relativeDistance = mousePos(t)
-        console.log(relativeDistance)
 
         function drag(e) {
             var pos = mousePos(document.querySelector('body'))
@@ -95,6 +218,7 @@
 
         document.addEventListener('mousemove', drag)
 
+
         document.addEventListener('mouseup', function once() {
             // 调用结束松开鼠标时，获取本次操作元素(此时的t为最上层元素)的z-index值作为最大z-index值
             maxZ = Math.max(maxZ, t.style.zIndex)
@@ -102,19 +226,20 @@
 
             //*****************************窗口磁吸效果，定义在松开鼠标时执行*****************************8
             //如果目标元素的左侧小于xxxpx,执行磁吸
-            if (parseFloat(t.style.left) <= kx) {
-                t.style.left = 0 + 'px'
+            //考虑到滚动条,计算时要额外减去滚动长度,赋值时要额外加上滚动长度
+            if (parseFloat(t.style.left) - window.pageXOffset <= kx) {
+                t.style.left = window.pageXOffset + 'px'
                 //如果目标元素的右侧小于15px,执行磁吸(left值 = 窗口宽度-元素宽度-右侧留空值)
-            } else if (parseFloat(t.style.left) >= document.body.clientWidth - w - kx) {
-                t.style.left = document.body.clientWidth - w + 'px'
+            } else if (parseFloat(t.style.left) - window.pageXOffset >= document.body.clientWidth - w - kx) {
+                t.style.left = window.pageXOffset + document.body.clientWidth - w + 'px'
             }
 
             //如果目标元素的上方小于xxxpx,执行磁吸
-            if (parseFloat(t.style.top) <= ky) {
-                t.style.top = 0 + 'px'
+            if (parseFloat(t.style.top) - window.pageYOffset <= ky) {
+                t.style.top = window.pageYOffset + 'px'
                 //如果目标元素的下方小于15px,执行磁吸(top值 = 窗口高度-元素高度-下方留空值)
-            } else if (parseFloat(t.style.top) >= document.body.clientHeight - h - ky) {
-                t.style.top = document.body.clientHeight - h + 'px'
+            } else if (parseFloat(t.style.top) - window.pageYOffset >= document.body.clientHeight - h - ky) {
+                t.style.top = window.pageYOffset + document.body.clientHeight - h + 'px'
             }
 
             document.removeEventListener('mouseup', once)
@@ -122,6 +247,45 @@
         })
     })
 
+
+    //*************************************************添加一个note*****************************************
+    //设置第一个标签的颜色
+    var r = 255 * Math.random()
+    var g = 255 * Math.random()
+    var b = 255 * Math.random()
+    var firstNote = document.querySelector('div')
+    firstNote.setAttribute('style', `top: 0px; left: 0px;z-index: 1;background-color:rgb(${r},${g},${b})`)
+    firstNote.querySelector('textarea').setAttribute('style', `background-color:rgb(${r + 50},${g + 50},${b + 50})`)
+    //设置后续标签的颜色
+    function addNote() {
+        var sourceNode = document.querySelector('div')
+        var cloneNode = sourceNode.cloneNode(true)
+        var cloneLeft = sourceNode.getBoundingClientRect().x + 50
+        var cloneTop = sourceNode.getBoundingClientRect().y + 50
+        var r = 255 * Math.random()
+        var g = 255 * Math.random()
+        var b = 255 * Math.random()
+        cloneNode.setAttribute('style', `top: ${cloneTop}px; left: ${cloneLeft}px;z-index: ${maxZ + 1};background-color:rgb(${r},${g},${b})`)
+        cloneNode.querySelector('textarea').setAttribute('style', `background-color:rgb(${r + 50},${g + 50},${b + 50})`)
+
+        //使复制出来的标签不会附带原元素标签的文本内容
+        cloneNode.querySelector('textarea').value = ''
+        document.body.prepend(cloneNode)
+    }
+
+    //*************************************************删除一个note*****************************************
+    document.addEventListener('click', function (e) {
+        //获取所有的note
+        var notes = Array(...document.querySelectorAll('div.mainNote'))
+        //如果只剩最后一个note,则不允许删除
+        if (notes.length == 1) {
+            document.querySelector('button.close').setAttribute('diable', true)
+            //如果大于一个note,并且点击目标时关闭按钮,则删除该note
+        } else if (e.target.matches('button.close')) {
+            console.log(e.target.parentNode)
+            e.target.parentNode.remove()
+        }
+    })
 
 
 
