@@ -12,14 +12,16 @@
     <svg width='500' height='500'></svg>
     <br>
     <span>工具:</span>
-    <button id='toolLine' onclick="tool='line'">线条工具</button>
-    <button id='toolCircle' onclick="tool='circle'">画圆工具</button>
+    <button id='toolLine' onclick="tool='line'" class="tool">线条工具</button>
+    <button id='toolCircle' onclick="tool='circle'" class="tool">画圆工具</button>
     <input type="color" id='colorSetter'><span>线条颜色</span>
     <!-- <input type="color" id='fillSetter'><span>填充颜色</span>
     <input type="checkbox" id='openFill'><span id='isOpenFill'></span> -->
     <br>
     <input type="range" id='thicknessSetter'><span id='thickness'></span>
     <input type="range" id='opacitySetter' value=100><span id='opacity'></span>
+    <br>
+    <button id='save' style="font-size: 30px;" onclick="save()">save</button>
 </body>
 
 <style>
@@ -65,13 +67,13 @@
 
     //************************************线条粗细*****************************************
     thickness.textContent = `线条粗细:${thicknessSetter.value}`
-    document.addEventListener('input', function (e) {
+    thickness.addEventListener('input', function (e) {
         thickness.textContent = `线条粗细:${thicknessSetter.value}`
     })
 
     //************************************线条透明度*****************************************
     opacity.textContent = `线条透明度:${opacitySetter.value}`
-    document.addEventListener('input', function (e) {
+    opacity.addEventListener('input', function (e) {
         opacity.textContent = `线条透明度:${opacitySetter.value}`
     })
 
@@ -81,8 +83,8 @@
     //定义画图的工具类型
     var tool = 'line'
     // var lastpos = null
-    document.addEventListener('mousedown', function (e) {
-
+    svg.addEventListener('mousedown', function (e) {
+        drawAndSave = false
         if (tool == 'line') {
             //获得=鼠标相对于svg元素左上角顶点的位置
             var pos = mousePos(svg)
@@ -191,13 +193,34 @@
     //************************************按钮高亮*****************************************
     toolLine.setAttribute('style', 'background-color:orange')
     document.addEventListener('click', function (e) {
-        var buttons = Array(...document.querySelectorAll('button'))
-        buttons.forEach(it => it.setAttribute('style', ''))
+        var toolButtons = Array(...document.querySelectorAll('button.tool'))
+        toolButtons.forEach(it => it.setAttribute('style', ''))
 
         if (tool == 'line') {
             toolLine.setAttribute('style', 'background-color:orange')
         } else if (tool == 'circle') {
             toolCircle.setAttribute('style', 'background-color:orange')
+        }
+    })
+
+    //************************************保存*****************************************
+    function save() {
+        drawAndSave = true
+        var svgSource = svg.outerHTML
+        var blob = new Blob(['<?xml version = "1.0" encoding = "utf=8"?>'])
+        var url = URL.createObjectURL(blob)
+        var anchor = document.createElement('a')
+        anchor.href = url
+        anchor.download = 'draw.svg'
+        anchor.click()
+    }
+
+
+    //************************************  未保存提示*****************************************
+    var drawAndSave = false
+    window.addEventListener('beforeunload', e => {
+        if (!drawAndSave) {
+            return e.returnValue = '未保存,是否退出'
         }
     })
 
@@ -212,6 +235,7 @@
         }
     }
 
+    
     //获得鼠标相对某元素的位置
     function mousePos(node) {
         var box = node.getBoundingClientRect()
