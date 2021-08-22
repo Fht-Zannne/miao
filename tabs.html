@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class='container'>
+        <div class="article" data-tabname='Home'>houme Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+            Laboriosam mollitia
+            sunt quis
+            sed pariatur minus est. Perferendis earum praesentium, unde adipisci, illo enim, incidunt facere deserunt
+            voluptas esse culpa ab?</div>
+        <div class="article" data-tabname='Link'>link Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+            Laboriosam mollitia sunt
+            quis
+            sed pariatur minus est. Perferendis earum praesentium, unde adipisci, illo enim, incidunt facere deserunt
+            voluptas esse culpa ab?</div>
+        <div class="article" data-tabname='About'>about Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+            Laboriosam mollitia
+            sunt
+            quis sed pariatur minus est. Perferendis earum praesentium, unde adipisci, illo enim, incidunt facere
+            deserunt voluptas esse culpa ab?</div>
+    </div>
+
+
+    <div class='container'>
+        <div class="article" data-tabname='AAA'>AAA Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+            Laboriosam mollitia
+            sunt quis
+            sed pariatur minus est. Perferendis earum praesentium, unde adipisci, illo enim, incidunt facere deserunt
+            voluptas esse culpa ab?</div>
+        <div class="article" data-tabname='BBB'>BBBB Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+            Laboriosam mollitia sunt
+            quis
+            sed pariatur minus est. Perferendis earum praesentium, unde adipisci, illo enim, incidunt facere deserunt
+            voluptas esse culpa ab?</div>
+        <div class="article" data-tabname='CCC'>CCC Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+            Laboriosam mollitia
+            sunt
+            quis sed pariatur minus est. Perferendis earum praesentium, unde adipisci, illo enim, incidunt facere
+            deserunt voluptas esse culpa ab?</div>
+    </div>
+</body>
+
+
+<style>
+    div.article {
+        width: 300px;
+    }
+
+    button.active {
+        background-color: orange;
+    }
+</style>
+
+</html>
+
+<script>
+    function asTabs(node) {
+        var children = Array(...node.children).reverse()//倒序
+        var bts = node.getElementsByTagName('button')
+        for (let child of children) {
+            let button = document.createElement('button')
+            button.textContent = child.dataset.tabname
+            child.style.display = "none"
+
+            button.addEventListener('click', function (e) {
+                Array(...bts).forEach(it => it.classList.remove('active'))
+                children.forEach(it => it.style.display = 'none')
+                this.classList.add('active')
+                child.style.display = ""
+            })
+
+            node.prepend(button)
+
+        }
+        //让第一个按钮被点击
+        node.firstElementChild.click()
+    }
+
+    Array(...document.querySelectorAll('div.container')).forEach(it => asTabs(it))
+
+</script>
