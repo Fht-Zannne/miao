@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+
+</html>
+
+<script>
+    // var last1 = 0
+    // var last2 = 0
+    // var last3 = 0
+
+    // window.addEventListener('click', e => {
+    //     var time = Date.now()
+    //     //最近的三次点击(指now,last3,last2)在400ms内并且距离上一次单击(last1)超过400ms
+    //     //则视为三击事件
+    //     if (time - last2 < 400 && last2 - last1 > 400) {
+    //         console.log('tripleClick')
+    //     }
+    //     last1 = last2
+    //     last2 = last3
+    //     last3 = time
+    // })
+</script>
+
+
+<script>
+    //系统自带的点击检测 e.detail
+    window.addEventListener('click', e => {
+        console.log(e.detail, e)
+    })
+</script>
