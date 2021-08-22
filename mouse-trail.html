@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="spin" style="left: 0;top: 0;"></div>
+    <div class="spin" style="left: 0;top: 0;"></div>
+    <div class="spin" style="left: 0;top: 0;"></div>
+    <div class="spin" style="left: 0;top: 0;"></div>
+    <div class="spin" style="left: 0;top: 0;"></div>
+    <div class="spin" style="left: 0;top: 0;"></div>
+    <div class="spin" style="left: 0;top: 0;"></div>
+    <div class="spin" style="left: 0;top: 0;"></div>
+
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos incidunt corporis vero veniam possimus at vitae
+        cupiditate recusandae repellendus nisi? Nihil, impedit. Officia eum placeat quae sequi quo quis molestiae?</p>
+    <p>Molestias repellendus voluptates qui doloremque incidunt aliquam obcaecati in omnis deleniti quaerat vel
+        consequuntur, quis pariatur numquam suscipit voluptas nesciunt nisi non. Necessitatibus possimus repudiandae
+        facere ipsa fugit veniam nemo?</p>
+    <p>Cumque natus, numquam ducimus distinctio excepturi magni id rerum perferendis eligendi quis enim rem tempore ea
+        debitis nisi provident. Voluptatum voluptatibus a eos impedit soluta molestiae nobis rem qui quod.</p>
+    <p>Consequatur, id animi necessitatibus atque reiciendis libero veritatis laborum voluptate, vel consectetur,
+        adipisci sed recusandae repellendus nobis dolore molestiae eaque quaerat nesciunt aliquid odit. Ut deserunt
+        accusantium consequuntur vitae at?</p>
+    <p>Officia tenetur nemo eius odio. Est, minima harum exercitationem labore voluptatem consequatur adipisci autem
+        accusamus iste praesentium assumenda, aspernatur repellat nesciunt accusantium vel sunt illo mollitia. Earum
+        ipsam nam maiores!</p>
+    <p>Tempora dolorem porro repudiandae doloribus totam exercitationem animi, numquam nulla ipsum veritatis earum,
+        soluta ratione repellat? Repudiandae ullam molestias nobis delectus consequatur sed, ipsam corrupti praesentium
+        dignissimos rem dolore totam!</p>
+    <p>Neque necessitatibus corrupti aut est suscipit nemo debitis. Nobis voluptatibus repellendus doloribus totam
+        voluptate doloremque ea rem? At assumenda neque non labore, obcaecati repellat? Exercitationem eaque cumque
+        dolorem deserunt velit.</p>
+    <p>Consectetur quidem voluptate nam soluta laboriosam quis illo ab nesciunt facilis ex delectus facere impedit
+        placeat ducimus voluptatibus magnam beatae aut labore sunt veniam ad modi, possimus sit! Perspiciatis, facilis.
+    </p>
+    <p>Voluptas recusandae eligendi similique laudantium nulla eveniet quae? Unde facilis id officia deleniti ea quos
+        dolor minima, rem iste ab. Asperiores dolor, exercitationem assumenda voluptatibus officia placeat? Ab, ratione
+        eaque.</p>
+    <p>Cumque maiores totam, perferendis veritatis adipisci laboriosam exercitationem illum, voluptatibus et voluptate
+        repellat facere! Et sint id deserunt quidem ex tempore! Porro facere nam excepturi accusamus laudantium! Minus,
+        totam id?</p>
+</body>
+
+<style>
+    div {
+        height: 30px;
+        width: 30px;
+        background-color: rebeccapurple;
+        position: absolute;
+    }
+</style>
+
+</html>
+
+<script>
+
+    var mouseX = -999
+    var mouseY = -999
+    var div = Array(...document.querySelectorAll('div.spin'))
+
+    document.addEventListener('mousemove', e => {
+        mouseX = e.clientX
+        mouseY = e.clientY
+    })
+
+
+    requestAnimationFrame(function spin(time) {
+        var angle = time * 0.002
+        for (var i of div) {
+            i.style.left = Math.sin(angle) * 50 + pageXOffset + mouseX + 'px'
+            i.style.top = Math.cos(angle) * 50 + pageYOffset + mouseY + 'px'
+            angle += Math.PI * 2 / div.length
+        }
+        requestAnimationFrame(spin)
+    })
+
+</script>
