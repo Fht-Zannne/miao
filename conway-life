@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id='world'></div>
+    <button onclick="nextButton()">next</button>
+    <button onclick="autoButton()">auto run</button>
+</body>
+
+</html>
+
+<script>
+    class Conway {
+
+        constructor(width, height) {
+            this.width = width
+            this.height = height
+            this.world = new Array(width * height).fill(0)
+        }
+
+        // 将world 数组 以一定的比例填充1
+        randowFill(ratio) {
+            for (let i = 0; i < this.world.length; i++) {
+                this.world[i] = Math.random() < ratio ? 1 : 0
+            }
+        }
+
+        // 获得 world 数组 row 行 col 列 的值
+        get(row, col) {
+            if (row >= this.height || row < 0 || col >= this.width || col < 0) {
+                return 0
+            }
+            return this.world[this.width * row + col]
+        }
+
+        // 设置 world数组 row 行 col 列 的值为 val
+        set(row, col, val) {
+            this.world[this.width * row + col] = val
+        }
+
+        // 将world 演变为下一个 阶段
+        next() {
+            var nextWorld = new Array(this.height * this.width).fill(0)
+
+            for (let r = 0; r < this.height; r++) {
+                for (let c = 0; c < this.width; c++) {
+                    // 获得当前所在位置是否有存活的生命
+                    var curStatus = this.get(r, c)
+                    var liveNeighbors = this.getLiveNeighbors(r, c)
+
+                    // 有存活的生命并且其邻居为2或3,则继续存货
+                    if (curStatus == 1 && liveNeighbors == 2 || liveNeighbors == 3) {
+                        nextWorld[this.width * r + c] = 1
+                        continue
+                        // 没有存活的生命并且其邻居为正好为3,则复活
+                    } else if (curStatus == 0 && liveNeighbors == 3) {
+                        nextWorld[this.width * r + c] = 1
+                        continue
+                    }
+                }
+            }
+            this.world = nextWorld
+            this.printWorldToHtml()
+        }
+
+        // 获得 row 行 col 列 的邻居情况
+        getLiveNeighbors(row, col) {
+            var count = 0 - this.get(row, col)
+            for (let r = row - 1; r <= row + 1; r++) {
+                for (let c = col - 1; c <= col + 1; c++) {
+                    count += this.get(r, c)
+                }
+            }
+            return count
+        }
+
+        // 
+        printWorld() {
+            var str = ''
+            for (let i = 0; i < this.height; i++) {
+                for (let j = 0; j < this.width; j++) {
+                    str += (this.get(i, j) == 1 ? "O" : ".") + "\t"
+                }
+                str += '\n'
+            }
+            console.log(str)
+        }
+
+        // 将world转换为 input 的表现出来
+        printWorldToHtml() {
+            var str = ''
+            for (let i = 0; i < this.height; i++) {
+                for (let j = 0; j < this.width; j++) {
+                    // 转换时,添加上行列属性
+                    str += (this.get(i, j) == 1 ? `<input  type = 'checkbox' data-row ="${i}" data-col = "${j}"  checked>` : `<input  type = 'checkbox' data-row ="${i}" data-col = "${j}">`)
+                }
+                str += '<br>'
+            }
+            // console.log(str) 
+            document.querySelector('div').innerHTML = str
+        }
+    }
+
+</script>
+
+<script>
+    conway = new Conway(20, 20)
+    conway.randowFill(0.7)
+    conway.printWorldToHtml()
+
+
+
+    var world = document.querySelector('#world')
+    world.addEventListener('click', e => {
+
+        //获得被点击的input的行列
+        var row = Number(e.target.dataset.row)
+        var col = Number(e.target.dataset.col)
+
+        // ******************调用conway的set方法,根据input是否被check,设置其所在行列的值*********************
+        conway.set(row, col, e.target.checked ? 1 : 0)
+    })
+
+    function nextButton() {
+        //调用next方法,并将结果打印为html形式
+        conway.next()
+        conway.printWorldToHtml()
+    }
+
+    //记录auto run是否在运行
+    var running = false
+    //创建一个变量,来记录setInterval事件
+    var interValid
+    function autoButton() {
+        // 如果在auto run在运行,点击事件将running设置为false,将按钮文本内容从 stop 设置为 auto run
+        if (running) {
+            running = false
+            event.target.textContent = 'auto run'
+            // 清楚掉正在运行的固定延迟不断运行的函数
+            clearInterval(interValid)
+        } else {
+            // 如果在auto run不在运行,点击事件将running设置为true,将按钮文本内容从  auto run 设置为 stop
+            running = true
+            event.target.textContent = 'stop'
+            // 创建一个延迟固定时间不断运行的函数
+            interValid = setInterval(nextButton, 100)
+        }
+    }
+
+</script>
